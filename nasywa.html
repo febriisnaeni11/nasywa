@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untuk Sayangku Tercinta 💕</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Poppins & Dancing Script -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti for Celebration -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <!-- qrcode.js for real-time QR code generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 50%, #ffb3c6 100%);
+            overflow-x: hidden;
+        }
+
+        .romantic-font {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        /* Floating hearts background animation */
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translateY(-10vh) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        .floating-heart {
+            position: fixed;
+            color: #ff4d6d;
+            animation: floatUp 4s infinite linear;
+            z-index: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col items-center justify-center p-4 relative">
+
+    <!-- Background Floating Hearts Container -->
+    <div id="heart-container" class="absolute inset-0 overflow-hidden pointer-events-none"></div>
+
+    <!-- Main Card Container -->
+    <div
+        class="relative z-10 bg-white/90 backdrop-blur-md border border-pink-200 rounded-3xl shadow-2xl p-6 md:p-10 max-w-lg w-full text-center transition-all duration-500">
+
+        <!-- Header Icon -->
+        <div class="mb-4 inline-flex p-4 bg-pink-100 rounded-full text-pink-500 shadow-inner animate-pulse">
+            <i class="fa-solid fa-heart-circle-exclamation text-3xl md:text-4xl"></i>
+        </div>
+
+        <!-- Recipient Header -->
+        <h1 class="romantic-font text-3xl md:text-4xl text-pink-600 font-bold mb-4 drop-shadow-sm">
+            Untuk sayangku cintaku cantiku istriku bidadariku 💕
+        </h1>
+
+        <!-- Apology Message Container -->
+        <div
+            class="bg-pink-50/80 border border-pink-100 rounded-2xl p-4 md:p-6 mb-6 text-gray-700 text-sm md:text-base leading-relaxed shadow-sm">
+            <p id="message-text" class="font-medium italic">
+                "aku minta maaf yaa selalu buat salah, maaf aku kemaren balesnya lama, maaf jawabnyaa juga ga excited
+                nanti kalo chat kaya gitu lg aku harus excited, sekali lg aku minta maaf yaa sayangku cintaku cantiku
+                istriku bidadariku. love you❤️"
+            </p>
+        </div>
+
+        <!-- Interactive Question Section -->
+        <div id="question-section" class="transition-all duration-300">
+            <p class="text-gray-800 font-semibold mb-6 text-lg">Kamu mau kan maafin aku? 🥺</p>
+
+            <div class="flex items-center justify-center gap-4 relative min-h-[60px]">
+                <!-- Yes Button -->
+                <button id="yes-btn" onclick="acceptApology()"
+                    class="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transform transition active:scale-95 flex items-center gap-2 cursor-pointer z-20">
+                    <i class="fa-solid fa-heart"></i> Maafin yaa 🥺
+                </button>
+
+                <!-- No Button (Runs Away) -->
+                <button id="no-btn" onmouseover="moveButton()" ontouchstart="moveButton()" onclick="moveButton()"
+                    class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-3 px-6 rounded-full shadow transition absolute right-2 md:right-8 cursor-pointer z-20">
+                    Belum mau 😜
+                </button>
+            </div>
+        </div>
+
+        <!-- Success Celebration Section (Hidden Initially) -->
+        <div id="success-section" class="hidden opacity-0 transition-opacity duration-700">
+            <div class="inline-flex p-3 bg-green-100 text-green-600 rounded-full mb-3 shadow-inner">
+                <i class="fa-solid fa-face-kiss-wink-heart text-3xl"></i>
+            </div>
+            <h2 class="romantic-font text-3xl text-pink-600 font-bold mb-2">Yeay! Terima kasih sudah memaafkan aku
+                sayangku! 🥰</h2>
+            <p class="text-gray-600 text-sm mb-6">Aku janji bakal lebih baik dan selalu semangat chat sama kamu!</p>
+
+            <!-- Built-in QR Code Generator Box -->
+            <div
+                class="bg-pink-50 rounded-2xl p-4 border border-pink-200 text-xs text-pink-800 text-center mt-2 shadow-inner">
+                <p class="font-semibold mb-2 text-sm"><i class="fa-solid fa-qrcode mr-1"></i> QR Code Halaman Ini:</p>
+                <div class="flex justify-center my-3">
+                    <div id="qrcode" class="p-2 bg-white rounded-xl shadow border border-pink-100"></div>
+                </div>
+                <p class="text-gray-600 text-xs mt-2">
+                    <b>Cara Kirim:</b> Suruh sayangmu scan QR Code di atas menggunakan kamera HP-nya, atau copy link
+                    website ini dan kirimkan langsung lewat chat WhatsApp! 💌
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer Note -->
+    <footer class="mt-6 text-xs text-pink-700 font-medium z-10">
+        Made with infinite love for you ❤️
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Create continuous floating background hearts
+        function createHeart() {
+            const container = document.getElementById('heart-container');
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            heart.innerHTML = '<i class="fa-solid fa-heart"></i>';
+
+            // Random positioning and sizing
+            heart.style.left = Math.random() * 100 + 'vw';
+            const size = Math.random() * 20 + 10;
+            heart.style.fontSize = size + 'px';
+
+            // Random animation duration
+            const duration = Math.random() * 3 + 3;
+            heart.style.animationDuration = duration + 's';
+
+            container.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, duration * 1000);
+        }
+
+        setInterval(createHeart, 300);
+
+        // Function for the moving "Belum mau" button
+        function moveButton() {
+            const noBtn = document.getElementById('no-btn');
+            const xRange = 100;
+            const yRange = 70;
+            const randomX = (Math.random() - 0.5) * xRange * 2;
+            const randomY = (Math.random() - 0.5) * yRange * 2;
+
+            noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+
+        // Function when "Maafin yaa 🥺" button is clicked
+        let qrGenerated = false;
+        function acceptApology() {
+            const questionSection = document.getElementById('question-section');
+            const successSection = document.getElementById('success-section');
+
+            questionSection.style.opacity = '0';
+            setTimeout(() => {
+                questionSection.classList.add('hidden');
+                successSection.classList.remove('hidden');
+                setTimeout(() => {
+                    successSection.classList.remove('opacity-0');
+                }, 50);
+
+                // Generate QR Code dari URL halaman ini (otomatis benar di GitHub Pages)
+                if (!qrGenerated) {
+                    const currentUrl = window.location.href;
+                    new QRCode(document.getElementById("qrcode"), {
+                        text: currentUrl,
+                        width: 150,
+                        height: 150,
+                        colorDark: "#ff4d6d",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.H
+                    });
+                    qrGenerated = true;
+                }
+            }, 300);
+
+            // Trigger beautiful confetti explosion
+            confetti({
+                particleCount: 130,
+                spread: 80,
+                origin: { y: 0.6 },
+                colors: ['#ff4d6d', '#ff758c', '#ff7eb3', '#ffffff']
+            });
+
+            setTimeout(() => {
+                confetti({
+                    particleCount: 90,
+                    angle: 60,
+                    spread: 60,
+                    origin: { x: 0 }
+                });
+                confetti({
+                    particleCount: 90,
+                    angle: 120,
+                    spread: 60,
+                    origin: { x: 1 }
+                });
+            }, 400);
+        }
+    </script>
+</body>
+
+</html>
